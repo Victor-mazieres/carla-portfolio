@@ -7,7 +7,7 @@ export default function Prestations() {
     {
       title: "Flash",
       description: "CAPTURER L’ESSENTIEL DE VOTRE IMAGE",
-      img: "../../public/Icons/Photo/Tarifs/Tatouage.png",
+      img: "/Icons/Photo/Tarifs/Tatouage.png",
       desc: [
         "Idéal pour portrait",
         "5 photos numériques",
@@ -19,7 +19,7 @@ export default function Prestations() {
     {
       title: "Lumière",
       description: "IMAGER VOTRE ACTIVITÉ ET VOTRE UNIVERS",
-      img: "../../public/Icons/Photo/Tarifs/Chambre.png",
+      img: "/Icons/Photo/Tarifs/Chambre.png",
       desc: [
         "L’entre deux parfait",
         "10 photos numériques",
@@ -31,7 +31,7 @@ export default function Prestations() {
     {
       title: "Horizon",
       description: "RACONTER VOTRE HISTOIRE ET ENRICHIR VOS SUPPORTS VISUELS",
-      img: "../../public/Icons/Photo/Tarifs/Lac.png",
+      img: "/Icons/Photo/Tarifs/Lac.png",
       desc: [
         "Reportage complet",
         "20 photos numériques",
