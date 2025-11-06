@@ -14,18 +14,25 @@
     <meta name="theme-color" content="#a26740" />
 
     <!-- === Favicon et icônes === -->
-    <link rel="icon" type="image/png" href="./public/Icons/Montagne+photo.png" />
-    <link rel="apple-touch-icon" href="./public/Icons/Montagne+photo.png" />
-    <link rel="manifest" href="./public/manifest.json" />
+    <!-- ⚠️ IMPORTANT : les fichiers du dossier /public ne doivent PAS être préfixés par /public -->
+    <link rel="icon" type="image/png" href="/Icons/Montagne+photo.png" />
+    <link rel="apple-touch-icon" href="/Icons/Montagne+photo.png" />
+    <link rel="manifest" href="/manifest.json" />
 
     <!-- === Polices Carla Lamerain === -->
     <link
       href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600&family=League+Spartan:wght@400;600;700&display=swap"
       rel="stylesheet"
     />
-    <link href="https://fonts.cdnfonts.com/css/glacial-indifference-2" rel="stylesheet" />
-    <link href="https://db.onlinewebfonts.com/c/8b9e57de8c4d3c4e6e51e6dcf857dfcb?family=TAN+Ashford" rel="stylesheet" type="text/css" />
-
+    <link
+      href="https://fonts.cdnfonts.com/css/glacial-indifference-2"
+      rel="stylesheet"
+    />
+    <link
+      href="https://db.onlinewebfonts.com/c/8b9e57de8c4d3c4e6e51e6dcf857dfcb?family=TAN+Ashford"
+      rel="stylesheet"
+      type="text/css"
+    />
 
     <!-- === Open Graph (prévisualisation sur réseaux sociaux) === -->
     <meta property="og:title" content="Carla Lamerain – Photographe" />
@@ -40,17 +47,41 @@
     <!-- === Twitter Card === -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Carla Lamerain – Photographe" />
-    <meta name="twitter:description" content="Portfolio et formules de Carla Lamerain, photographe professionnelle dans le Sud-Ouest." />
+    <meta
+      name="twitter:description"
+      content="Portfolio et formules de Carla Lamerain, photographe professionnelle dans le Sud-Ouest."
+    />
     <meta name="twitter:image" content="/cover.jpg" />
+
+    <!-- === PRELOAD IMAGES PRINCIPALES === -->
+    <!-- Portrait page À propos -->
+    <link rel="preload" as="image" href="/Icons/CarlaSansFond.webp" />
+    <link rel="preload" as="image" href="/Icons/CarlaSansFond.png" />
+
+    <!-- Tarifs page Prestations -->
+    <link rel="preload" as="image" href="/Icons/Photo/Tarifs/Tatouage.webp" />
+    <link rel="preload" as="image" href="/Icons/Photo/Tarifs/Chambre.webp" />
+    <link rel="preload" as="image" href="/Icons/Photo/Tarifs/Lac.webp" />
+    <link rel="preload" as="image" href="/Icons/Photo/Biche.jpg" />
+
+
+    <!-- Fallback PNG -->
+    <link rel="preload" as="image" href="/Icons/Photo/Tarifs/Tatouage.png" />
+    <link rel="preload" as="image" href="/Icons/Photo/Tarifs/Chambre.png" />
+    <link rel="preload" as="image" href="/Icons/Photo/Tarifs/Lac.png" />
+
+    <!-- Optionnel : fond montagnes -->
+    <link rel="preload" as="image" href="/Icons/Photo/Montagnes.svg" />
 
     <!-- === Vite/React root === -->
     <script type="module" src="/src/main.jsx"></script>
   </head>
 
-  <body class="bg-[#f1f0ed] text-[#3a2e27] font-[Quicksand] antialiased">
+  <body
+    class="bg-[#f1f0ed] text-[#3a2e27] font-[Quicksand] antialiased selection:bg-primary/20 selection:text-primary"
+  >
     <div id="root"></div>
 
-    <!-- === Nos scripts principaux === -->
     <noscript>Activez JavaScript pour afficher ce site.</noscript>
   </body>
 </html>

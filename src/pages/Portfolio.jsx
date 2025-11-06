@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Helmet } from "react-helmet";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronLeft, ChevronRight, X } from "lucide-react";
 import {
@@ -13,6 +14,7 @@ import {
 import logo from "../../public/Icons/LogoSansFond.png";
 
 export default function Portfolio() {
+  /* === Données principales === */
   const galleries = [
     {
       title: "Aura Wake Park",
@@ -89,56 +91,101 @@ export default function Portfolio() {
   const [selectedGallery, setSelectedGallery] = useState(null);
   const [selectedIndex, setSelectedIndex] = useState(null);
 
+  /* === Navigation === */
   const openImage = (gallery, index) => {
     setSelectedGallery(gallery);
     setSelectedIndex(index);
   };
-
   const closeImage = () => {
     setSelectedGallery(null);
     setSelectedIndex(null);
   };
-
-  const showNext = () => {
+  const showNext = () =>
     setSelectedIndex((prev) => (prev + 1) % selectedGallery.photos.length);
-  };
-
-  const showPrev = () => {
+  const showPrev = () =>
     setSelectedIndex(
       (prev) =>
         (prev - 1 + selectedGallery.photos.length) %
         selectedGallery.photos.length
     );
-  };
 
-  // --- Swipe mobile
+  /* === Swipe mobile === */
   const [touchStart, setTouchStart] = useState(0);
   const [touchEnd, setTouchEnd] = useState(0);
-
   const handleTouchStart = (e) => setTouchStart(e.targetTouches[0].clientX);
   const handleTouchMove = (e) => setTouchEnd(e.targetTouches[0].clientX);
   const handleTouchEnd = () => {
     if (!touchStart || !touchEnd) return;
     const distance = touchStart - touchEnd;
-
     if (distance > 50) showNext();
     if (distance < -50) showPrev();
-
     setTouchStart(0);
     setTouchEnd(0);
   };
 
   return (
-    <main className="min-h-screen bg-background text-darkText pt-8 flex flex-col items-center">
+    <main
+      className="min-h-screen bg-background text-darkText pt-8 flex flex-col items-center"
+      role="main"
+    >
+      {/* === SEO / METADATA === */}
+      <Helmet>
+        <title>Portfolio — Carla Lamerain Photographe</title>
+        <meta
+          name="description"
+          content="Découvrez le portfolio de Carla Lamerain, photographe professionnelle : portraits, artisans, entreprises et projets créatifs."
+        />
+        <meta
+          name="keywords"
+          content="portfolio photographe, Carla Lamerain, portrait, artisan, reportage photo, communication visuelle"
+        />
+        <meta property="og:title" content="Portfolio — Carla Lamerain" />
+        <meta
+          property="og:description"
+          content="Découvrez les réalisations photo et projets professionnels de Carla Lamerain."
+        />
+        <meta property="og:image" content="/Icons/LogoSansFond.png" />
+        <meta property="og:type" content="website" />
+        <meta property="og:locale" content="fr_FR" />
+        <link rel="canonical" href="https://www.carlalamerain.fr/portfolio" />
+        <meta name="author" content="Carla Lamerain" />
+        <meta name="robots" content="index, follow" />
+        <link rel="preload" as="image" href="/Icons/LogoSansFond.png" />
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "CreativeWork",
+            name: "Portfolio de Carla Lamerain",
+            creator: {
+              "@type": "Person",
+              name: "Carla Lamerain",
+              jobTitle: "Photographe professionnelle",
+            },
+            image: "https://www.carlalamerain.fr/Icons/LogoSansFond.png",
+            url: "https://www.carlalamerain.fr/portfolio",
+            description:
+              "Portfolio photographique présentant les travaux de Carla Lamerain : reportages, portraits et créations visuelles.",
+          })}
+        </script>
+      </Helmet>
+
       {/* === HERO SECTION === */}
-      <section className="flex flex-col items-center justify-center text-center px-6 py-8 md:py-12 lg:py-14 max-w-5xl w-full">
+      <section
+        className="flex flex-col items-center justify-center text-center px-6 py-8 md:py-12 lg:py-14 max-w-5xl w-full"
+        aria-label="Présentation du portfolio"
+      >
         <motion.img
           src={logo}
           alt="Logo Carla Lamerain"
+          width="400"
+          height="200"
+          loading="eager"
+          decoding="async"
+          fetchpriority="high"
           initial={{ opacity: 0, scale: 0.8, y: -10 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           transition={{ duration: 1.2, ease: "easeOut" }}
-          className="w-56 sm:w-64 md:w-80"
+          className="w-56 sm:w-64 md:w-80 select-none"
         />
 
         <motion.h1
@@ -191,23 +238,23 @@ export default function Portfolio() {
             onTouchMove={handleTouchMove}
             onTouchEnd={handleTouchEnd}
           >
-            {/* Image affichée sans animation */}
             <img
               src={selectedGallery.photos[selectedIndex]}
-              alt="Photo agrandie"
+              alt={`Photo de la galerie ${selectedGallery.title}`}
               className="max-h-[90vh] max-w-[90vw] object-contain rounded-lg shadow-2xl select-none"
+              loading="lazy"
+              decoding="async"
               draggable={false}
             />
 
-            {/* Bouton fermer */}
             <button
               onClick={closeImage}
               className="absolute top-6 right-6 text-white hover:text-gold transition"
+              aria-label="Fermer la photo"
             >
               <X size={36} />
             </button>
 
-            {/* Boutons de navigation uniquement sur desktop */}
             <div className="hidden md:flex absolute justify-between w-full px-10 items-center">
               <button
                 onClick={(e) => {
@@ -215,6 +262,7 @@ export default function Portfolio() {
                   showPrev();
                 }}
                 className="text-white hover:text-gold transition"
+                aria-label="Photo précédente"
               >
                 <ChevronLeft size={48} />
               </button>
@@ -224,6 +272,7 @@ export default function Portfolio() {
                   showNext();
                 }}
                 className="text-white hover:text-gold transition"
+                aria-label="Photo suivante"
               >
                 <ChevronRight size={48} />
               </button>
@@ -243,7 +292,10 @@ function GallerySection({ index, title, photos, onImageClick }) {
     : "bg-background text-darkText";
 
   return (
-    <section className={`relative w-full py-20 overflow-hidden ${bgColor}`}>
+    <section
+      className={`relative w-full py-20 overflow-hidden ${bgColor}`}
+      aria-labelledby={`gallery-${index}`}
+    >
       {isSecondary && (
         <>
           {index === 0 && <Pattern1 />}
@@ -262,14 +314,15 @@ function GallerySection({ index, title, photos, onImageClick }) {
           photos={photos}
           onImageClick={onImageClick}
           isSecondary={isSecondary}
+          id={`gallery-${index}`}
         />
       </div>
     </section>
   );
 }
 
-/* === CARROUSEL SANS ANIMATION === */
-function FocusCarousel({ title, photos, onImageClick, isSecondary }) {
+/* === CARROUSEL === */
+function FocusCarousel({ title, photos, onImageClick, isSecondary, id }) {
   const [index, setIndex] = useState(0);
   const [ratios, setRatios] = useState({});
 
@@ -277,6 +330,8 @@ function FocusCarousel({ title, photos, onImageClick, isSecondary }) {
     photos.forEach((src) => {
       const img = new Image();
       img.src = src;
+      img.loading = "lazy";
+      img.decoding = "async";
       img.onload = () => {
         const ratio = img.width / img.height;
         setRatios((prev) => ({
@@ -294,7 +349,6 @@ function FocusCarousel({ title, photos, onImageClick, isSecondary }) {
     const total = photos.length;
     let diff = (i - index + total) % total;
     if (diff > total / 2) diff -= total;
-
     const positions = {
       "-2": { x: -400, scale: 0.7, opacity: 1, z: 5 },
       "-1": { x: -200, scale: 0.85, opacity: 1, z: 10 },
@@ -302,13 +356,13 @@ function FocusCarousel({ title, photos, onImageClick, isSecondary }) {
       "1": { x: 200, scale: 0.85, opacity: 1, z: 10 },
       "2": { x: 400, scale: 0.7, opacity: 1, z: 5 },
     };
-
     return positions[diff] || { x: diff * 400, scale: 0.5, opacity: 0 };
   };
 
   return (
     <section className="flex flex-col items-center overflow-hidden">
       <h2
+        id={id}
         className={`font-title font-semibold mb-8 w-full 
         text-center sm:text-left md:text-center 
         text-4xl sm:text-3xl md:text-4xl tracking-tight select-none
@@ -320,6 +374,7 @@ function FocusCarousel({ title, photos, onImageClick, isSecondary }) {
       <div className="relative w-full flex items-center justify-center">
         <button
           onClick={prev}
+          aria-label="Photo précédente"
           className={`absolute left-0 z-50 rounded-full p-2 transition-transform hover:scale-110 ${
             isSecondary
               ? "bg-primary/90 hover:bg-primary/70 text-white"
@@ -349,7 +404,9 @@ function FocusCarousel({ title, photos, onImageClick, isSecondary }) {
               >
                 <img
                   src={src}
-                  alt={title}
+                  alt={`${title} — photo ${i + 1}`}
+                  loading="lazy"
+                  decoding="async"
                   className={`object-cover rounded-2xl ${
                     isWide
                       ? "w-112 h-56 sm:w-128 sm:h-64 md:w-160 md:h-80"
@@ -363,6 +420,7 @@ function FocusCarousel({ title, photos, onImageClick, isSecondary }) {
 
         <button
           onClick={next}
+          aria-label="Photo suivante"
           className={`absolute right-0 z-50 rounded-full p-2 transition-transform hover:scale-110 ${
             isSecondary
               ? "bg-primary/90 hover:bg-primary/70 text-white"

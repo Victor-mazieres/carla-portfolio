@@ -1,4 +1,5 @@
 import React from "react";
+import { Helmet } from "react-helmet";
 import { motion } from "framer-motion";
 import { Mail, Phone, Instagram, ChevronUp } from "lucide-react";
 import portrait from "../../public/Icons/CarlaSansFond.png";
@@ -11,36 +12,94 @@ export default function Apropos() {
       transition={{ duration: 0.8 }}
       className="min-h-screen w-full flex flex-col items-center justify-center overflow-hidden pt-28"
     >
+      {/* === SEO / METADATA === */}
+      <Helmet>
+        <title>À propos de Carla Lamerain — Photographe professionnelle</title>
+        <meta
+          name="description"
+          content="Découvrez le parcours de Carla Lamerain, photographe professionnelle passionnée dans le Sud-Ouest. Spécialisée en portraits, reportages et shootings créatifs sur mesure."
+        />
+        <meta
+          name="keywords"
+          content="photographe professionnelle, Carla Lamerain, Sud-Ouest, portrait, reportage, photo artisan, communication visuelle"
+        />
+        <meta name="author" content="Carla Lamerain" />
+        <meta property="og:title" content="À propos — Carla Lamerain Photographe" />
+        <meta
+          property="og:description"
+          content="L’histoire et la passion de Carla Lamerain, photographe professionnelle basée dans le Sud-Ouest."
+        />
+        <meta property="og:image" content="/Icons/CarlaSansFond.png" />
+        <meta property="og:type" content="profile" />
+        <meta property="og:locale" content="fr_FR" />
+        <link rel="canonical" href="https://www.carlalamerain.fr/a-propos" />
+
+        {/* === Données structurées JSON-LD === */}
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Person",
+            name: "Carla Lamerain",
+            jobTitle: "Photographe professionnelle",
+            image: "https://www.carlalamerain.fr/Icons/CarlaSansFond.png",
+            url: "https://www.carlalamerain.fr",
+            sameAs: [
+              "https://www.instagram.com/car_laphotographie",
+              "mailto:clamerain.photo@gmail.com",
+              "tel:+33647159369",
+            ],
+            description:
+              "Photographe passionnée basée dans le Sud-Ouest, spécialisée dans les portraits, reportages et créations visuelles pour professionnels et particuliers.",
+          })}
+        </script>
+      </Helmet>
+
       {/* === TITRE === */}
-      <motion.h1
-        initial={{ y: 20, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.7 }}
-        className="font-title text-3xl sm:text-4xl text-primary mb-6 text-center"
-      >
-        À propos de moi
-      </motion.h1>
+      <header>
+        <motion.h1
+          initial={{ y: 20, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 0.7 }}
+          className="font-title text-3xl sm:text-4xl text-primary mb-6 text-center"
+        >
+          À propos de moi
+        </motion.h1>
+      </header>
 
       {/* === BANDE PRINCIPALE === */}
-      <section className="relative w-full bg-secondary px-6 sm:px-10 pb-10 sm:pb-0 flex justify-center overflow-hidden">
-        {/* === BANDE DIAGONALE EN ARRIÈRE PLAN === */}
-        <div className="absolute right-0 top-0 h-full w-[50%] bg-primary/10 transform -skew-x-12 origin-right pointer-events-none"></div>
+      <section
+        className="relative w-full bg-secondary px-6 sm:px-10 pb-10 sm:pb-0 flex justify-center overflow-hidden"
+        aria-label="Présentation de Carla Lamerain"
+      >
+        <div
+          aria-hidden="true"
+          className="absolute right-0 top-0 h-full w-[50%] bg-primary/10 transform -skew-x-12 origin-right pointer-events-none"
+        ></div>
 
         <div className="relative flex flex-col md:flex-row items-center justify-center gap-10 md:gap-16 max-w-6xl z-10">
           {/* === MOBILE : IMAGE + FLÈCHES === */}
           <div className="relative flex flex-row items-center justify-center gap-4 sm:gap-6 md:hidden">
-            {/* IMAGE (statique) */}
-            <div className="relative flex justify-center items-center">
-              <div className="absolute inset-0 w-full h-full blur-2xl bg-primary/25 rounded-full scale-100"></div>
-              <img
-                src={portrait}
-                alt="Carla Lamerain"
-                className="relative w-64 sm:w-72 object-contain drop-shadow-2xl z-10"
-              />
-            </div>
+            <figure className="relative flex justify-center items-center">
+              <div
+                aria-hidden="true"
+                className="absolute inset-0 w-full h-full blur-2xl bg-primary/25 rounded-full scale-100"
+              ></div>
+              <picture>
+                <source srcSet="/Icons/CarlaSansFond.webp" type="image/webp" />
+                <img
+                  src={portrait}
+                  alt="Portrait de Carla Lamerain, photographe professionnelle"
+                  width="400"
+                  height="400"
+                  loading="lazy"
+                  decoding="async"
+                  className="relative w-64 sm:w-72 object-contain drop-shadow-2xl z-10"
+                />
+              </picture>
+            </figure>
 
             {/* FLÈCHES À DROITE SUR MOBILE */}
-            <div className="flex flex-col gap-3 text-primary items-center">
+            <div className="flex flex-col gap-3 text-primary items-center" aria-hidden="true">
               {[...Array(4)].map((_, i) => (
                 <ChevronUp
                   key={i}
@@ -62,14 +121,9 @@ export default function Apropos() {
             className="block md:hidden text-center flex flex-col items-center border-t border-neutral/40 w-full pt-8"
           >
             <p className="max-w-3xl font-text text-base sm:text-lg leading-relaxed text-darkText/90 text-pretty">
-              <strong className="font-semibold">
-                Mon chemin vers la photographie est avant tout celui d'une passion.
-              </strong>
-              <br />
+              <strong>Mon chemin vers la photographie est avant tout celui d'une passion.</strong>
               <br />
               Depuis toujours, j’ai ce besoin d’immortaliser les moments, les lumières et les émotions.
-              <br />
-              <br />
               C’est en réalisant le pouvoir unique d'une image — celui de raconter une histoire
               ou de figer la beauté d'un instant fugace — que l'envie est née de mettre mon regard
               au service de vos projets professionnels et de vos précieux souvenirs personnels.
@@ -78,20 +132,25 @@ export default function Apropos() {
 
           {/* === DESKTOP : IMAGE + FLÈCHES + TEXTE === */}
           <div className="hidden md:flex flex-row items-center justify-center gap-5 md:gap-5">
-            {/* IMAGE (statique) */}
-            <div className="relative flex justify-center items-center">
-              <div className="absolute inset-0 w-full h-full blur-2xl bg-primary/25 rounded-full scale-100"></div>
+            <figure className="relative flex justify-center items-center">
+              <div
+                aria-hidden="true"
+                className="absolute inset-0 w-full h-full blur-2xl bg-primary/25 rounded-full scale-100"
+              ></div>
               <img
                 src={portrait}
-                alt="Carla Lamerain"
+                alt="Portrait de Carla Lamerain photographe"
+                width="500"
+                height="500"
+                loading="lazy"
+                decoding="async"
                 className="relative w-72 md:w-96 object-contain drop-shadow-2xl z-10"
               />
-            </div>
+            </figure>
 
             {/* FLÈCHES + TEXTE */}
             <div className="relative flex items-center justify-center md:justify-start gap-8">
-              {/* FLÈCHES À GAUCHE */}
-              <div className="flex flex-col gap-4 text-primary items-center">
+              <div className="flex flex-col gap-4 text-primary items-center" aria-hidden="true">
                 {[...Array(5)].map((_, i) => (
                   <ChevronUp
                     key={i}
@@ -102,7 +161,6 @@ export default function Apropos() {
                 ))}
               </div>
 
-              {/* TEXTE */}
               <motion.section
                 id="apropos-desktop"
                 initial={{ opacity: 0, y: 60 }}
@@ -112,14 +170,11 @@ export default function Apropos() {
                 className="text-left flex flex-col items-start border-t border-neutral/40 w-full pt-6 sm:pt-8"
               >
                 <p className="max-w-2xl font-text text-base sm:text-lg md:text-xl leading-relaxed sm:leading-loose text-darkText text-pretty">
-                  <strong className="font-semibold">
+                  <strong>
                     Mon chemin vers la photographie est avant tout celui d'une passion.
                   </strong>
                   <br />
-                  <br />
                   Depuis toujours, j’ai ce besoin d’immortaliser les moments, les lumières et les émotions.
-                  <br />
-                  <br />
                   C’est en réalisant le pouvoir unique d'une image — celui de raconter une histoire
                   ou de figer la beauté d'un instant fugace — que l'envie est née de mettre mon regard
                   au service de vos projets professionnels et de vos précieux souvenirs personnels.
@@ -144,26 +199,18 @@ export default function Apropos() {
         </h2>
 
         <p className="max-w-3xl font-text text-base sm:text-lg md:text-xl leading-relaxed sm:leading-loose text-darkText/90 text-pretty">
-          <strong className="font-semibold text-darkText">
-            Mettre en valeur votre activité professionnelle !
-          </strong>
-          <br />
+          <strong>Mettre en valeur votre activité professionnelle !</strong>
           <br />
           Photographe pour professionnels, artisans et créateurs, je mets en lumière votre activité
           à travers des images naturelles, actuelles et impactantes.
-          <br />
-          <br />
           Ensemble, nous créons un reportage visuel pour vos réseaux sociaux, votre site web ou vos supports
           de communication.
           <br />
-          <br />
           Je réalise aussi des séances photo pour les particuliers — portraits, photos de famille ou tout autre projet personnel.
-          <br />
           <br />
           <em className="text-primary font-medium">Une image vaut mille mots.</em>
         </p>
 
-        {/* === BARRE DE SÉPARATION === */}
         <motion.div
           initial={{ scaleX: 0 }}
           whileInView={{ scaleX: 1 }}
@@ -175,7 +222,6 @@ export default function Apropos() {
 
       {/* === BANDEAU MONTAGNE / CONTACT === */}
       <section className="relative w-full overflow-hidden">
-        {/* --- SVG Montagnes intégré dans le fond --- */}
         <div className="absolute inset-0 -z-10">
           <svg
             viewBox="0 0 1200 300"
@@ -200,7 +246,6 @@ export default function Apropos() {
           </svg>
         </div>
 
-        {/* --- Contenu du bandeau --- */}
         <motion.div
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -219,34 +264,34 @@ export default function Apropos() {
           </p>
 
           {/* --- Liens de contact --- */}
-          <div className="flex flex-row justify-center items-center gap-12 sm:gap-8 mt-6 flex-wrap">
+          <address className="flex flex-row justify-center items-center gap-12 sm:gap-8 mt-6 flex-wrap not-italic">
             <a
               href="mailto:clamerain.photo@gmail.com"
               className="flex items-center justify-center gap-2 bg-beige/10 sm:px-5 sm:py-2 rounded-full hover:bg-beige/20 transition"
             >
-              <Mail className="w-7 h-7 sm:w-5 sm:h-5" />
+              <Mail className="w-7 h-7 sm:w-5 sm:h-5" aria-hidden="true" />
               <span className="hidden sm:inline">clamerain.photo@gmail.com</span>
             </a>
 
             <a
-              href="tel:0647159369"
+              href="tel:+33647159369"
               className="flex items-center justify-center gap-2 bg-beige/10 sm:px-5 sm:py-2 rounded-full hover:bg-beige/20 transition"
             >
-              <Phone className="w-7 h-7 sm:w-5 sm:h-5" />
+              <Phone className="w-7 h-7 sm:w-5 sm:h-5" aria-hidden="true" />
               <span className="hidden sm:inline">06 47 15 93 69</span>
             </a>
 
             <a
               href="https://www.instagram.com/car_laphotographie"
               target="_blank"
-              rel="noreferrer"
-              aria-label="Instagram"
+              rel="noopener noreferrer"
+              aria-label="Profil Instagram de Carla Lamerain"
               className="flex items-center justify-center gap-2 bg-beige/10 sm:px-5 sm:py-2 rounded-full hover:bg-beige/20 transition"
             >
-              <Instagram className="w-8 h-8 sm:w-6 sm:h-6" />
+              <Instagram className="w-8 h-8 sm:w-6 sm:h-6" aria-hidden="true" />
               <span className="hidden sm:inline">@car_laphotographie</span>
             </a>
-          </div>
+          </address>
         </motion.div>
       </section>
     </motion.main>
