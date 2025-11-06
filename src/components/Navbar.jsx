@@ -2,14 +2,13 @@ import React, { useState } from "react";
 import { Link, NavLink, useLocation } from "react-router-dom";
 import { Menu, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import logo from "../../public/Icons/logo_extrait_2_transparent.png";
+import logo from "../../public/Icons/LogoSansFond.png";
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const location = useLocation();
 
   const navLinks = [
-    { name: "Portfolio / Galerie", path: "/portfolio" },
     { name: "Prestations / Tarifs", path: "/prestations" },
     { name: "À propos", path: "/apropos" },
     { name: "Contact", path: "/contact" },

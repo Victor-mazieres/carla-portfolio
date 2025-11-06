@@ -1,11 +1,37 @@
 <!doctype html>
-<html>
+<html lang="fr">
   <head>
     <meta charset="utf-8" />
     <title>Admin – Carla Lamerain</title>
+
+    <!-- Authentification Netlify -->
     <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
   </head>
+
   <body>
-    <script src="https://unpkg.com/netlify-cms-app@^2.0/dist/netlify-cms.js"></script>
+    <p style="text-align:center;font-family:sans-serif;color:#5E1717;margin-top:30px;">
+      Chargement du panneau d’administration...
+    </p>
+
+    <script>
+      // Charger DecapCMS dynamiquement APRÈS le chargement complet de la page
+      window.addEventListener("load", function () {
+        const script = document.createElement("script");
+        script.src =
+          "https://unpkg.com/decap-cms@3.9.0/dist/decap-cms.js"; // version stable explicite
+        script.onload = function () {
+          console.log("✅ DecapCMS chargé !");
+          if (window.CMS) {
+            CMS.init();
+          } else {
+            console.error("❌ CMS toujours indisponible après chargement !");
+          }
+        };
+        script.onerror = function () {
+          console.error("❌ Erreur de téléchargement du script DecapCMS !");
+        };
+        document.body.appendChild(script);
+      });
+    </script>
   </body>
 </html>

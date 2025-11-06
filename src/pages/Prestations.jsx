@@ -6,7 +6,8 @@ export default function Prestations() {
   const prestations = [
     {
       title: "Flash",
-      img: "/tarif1.jpg",
+      description: "CAPTURER L’ESSENTIEL DE VOTRE IMAGE",
+      img: "../../public/Icons/Photo/Tarifs/Tatouage.png",
       desc: [
         "Idéal pour portrait",
         "5 photos numériques",
@@ -17,7 +18,8 @@ export default function Prestations() {
     },
     {
       title: "Lumière",
-      img: "/tarif2.jpg",
+      description: "IMAGER VOTRE ACTIVITÉ ET VOTRE UNIVERS",
+      img: "../../public/Icons/Photo/Tarifs/Chambre.png",
       desc: [
         "L’entre deux parfait",
         "10 photos numériques",
@@ -28,7 +30,8 @@ export default function Prestations() {
     },
     {
       title: "Horizon",
-      img: "/tarif3.jpg",
+      description: "RACONTER VOTRE HISTOIRE ET ENRICHIR VOS SUPPORTS VISUELS",
+      img: "../../public/Icons/Photo/Tarifs/Lac.png",
       desc: [
         "Reportage complet",
         "20 photos numériques",
@@ -46,12 +49,14 @@ export default function Prestations() {
       transition={{ duration: 0.8 }}
       className="min-h-screen bg-background text-darkText pt-28 pb-16 px-6 flex flex-col items-center"
     >
+      {/* === TITRE === */}
       <h1 className="font-title text-3xl sm:text-4xl text-primary mb-12 text-center">
         Prestations & Tarifs
       </h1>
 
-      {/* === Grille des formules === */}
+      {/* === GRILLE DES FORMULES === */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl w-full">
+        
         {prestations.map((p, index) => (
           <motion.div
             key={index}
@@ -59,17 +64,20 @@ export default function Prestations() {
             transition={{ duration: 0.3 }}
             className="flex flex-col bg-lightBeige rounded-xl shadow-subtle overflow-hidden border border-neutral/30"
           >
-            {/* Image */}
+            <h2 className=" text-center font-title font-bold text-xl mt-5 text-darkText mb-4">
+                {p.description}
+              </h2>
+            {/* IMAGE */}
             <img
               src={p.img}
               alt={p.title}
-              className="w-full h-64 object-cover"
+              className="w-full h-78 object-cover"
               loading="lazy"
             />
 
-            {/* Contenu texte */}
-            <div className="flex flex-col justify-between flex-grow p-6 text-center">
-              <h2 className="font-title text-2xl text-darkText mb-4">
+            {/* CONTENU */}
+            <div className="flex flex-col justify-between flex-grow p-6 text-center bg-secondary">
+              <h2 className="font-title font-bold text-4xl text-darkText mb-4">
                 {p.title}
               </h2>
 
@@ -85,56 +93,33 @@ export default function Prestations() {
                 ))}
               </ul>
 
-{/* === Cercle crayonné réaliste (comme sur l’exemple exact) === */}
-<div className="mt-auto relative flex justify-center items-center h-24">
-  <motion.svg
-    xmlns="http://www.w3.org/2000/svg"
-    viewBox="0 0 220 100"
-    className="absolute w-[180px] h-[80px] -rotate-2 z-0"
-    initial={{ pathLength: 0 }}
-    animate={{ pathLength: 1 }}
-    transition={{ duration: 1.8, ease: "easeInOut" }}
-  >
-    {/* Trait 1 (courbe ovale du bas) */}
-    <path
-      d="M15,55 C40,80 180,80 205,55 C175,88 45,88 15,55 Z"
-      fill="none"
-      stroke="#000"
-      strokeWidth="2.2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-    {/* Trait 2 (léger décalage, courbe ovale du haut) */}
-    <path
-      d="M20,50 C50,25 170,25 200,50 C170,78 50,78 20,50 Z"
-      fill="none"
-      stroke="#000"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-  </motion.svg>
+              {/* === ÉTIQUETTE PRIX (plus ovale) === */}
+              <div className="mt-auto flex justify-center items-center h-24">
+                <motion.div
+                  initial={{ scale: 0.8, opacity: 0 }}
+                  animate={{ scale: 1, opacity: 1 }}
+                  transition={{ duration: 0.6, ease: "easeOut" }}
+                  className="relative px-12 py-3 bg-[#e7d6b0]/70 backdrop-blur-sm border border-[#b7a47d]/60 rounded-[9999px] shadow-[0_0_15px_rgba(0,0,0,0.05)]"
+                  style={{
+                    transform: "scaleX(1.25) scaleY(0.85)",
+                  }}
+                >
+                  {/* Contours décalés effet crayonné propre */}
+                  <div className="absolute inset-0 rounded-[9999px] border-[2.5px] border-[#000]/80 scale-[1.05] rotate-[1.5deg] opacity-70"></div>
+                  <div className="absolute inset-0 rounded-[9999px] border-[1.5px] border-[#000]/60 scale-[0.97] -rotate-[1.5deg] opacity-60"></div>
 
-  <motion.span
-    className="relative z-10 font-title text-3xl sm:text-4xl text-[#000]"
-    initial={{ scale: 0.9, opacity: 0 }}
-    animate={{ scale: [0.9, 1.05, 1], opacity: 1 }}
-    transition={{
-      delay: 1,
-      duration: 0.6,
-      ease: [0.25, 0.1, 0.25, 1],
-    }}
-  >
-    {p.price}
-  </motion.span>
-</div>
-
+                  {/* Texte prix */}
+                  <span className="relative z-10 font-title text-3xl sm:text-4xl text-[#000] tracking-wide">
+                    {p.price}
+                  </span>
+                </motion.div>
+              </div>
             </div>
           </motion.div>
         ))}
       </div>
 
-      {/* === Mini vidéo / Reel Instagram === */}
+      {/* === MINI VIDÉO / REEL === */}
       <motion.p
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -145,7 +130,7 @@ export default function Prestations() {
         <span className="font-semibold text-primary">150€</span>
       </motion.p>
 
-      {/* === Détails supplémentaires === */}
+      {/* === DÉTAILS SUPPLÉMENTAIRES === */}
       <motion.p
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
