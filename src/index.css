@@ -1,0 +1,24 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* === Style global Carla Lamerain === */
+html, body {
+  @apply  text-darkText font-sans antialiased;
+}
+
+h1, h2, h3, h4, h5 {
+  @apply font-title text-darkText;
+}
+
+a {
+  @apply text-primary hover:underline transition-colors;
+}
+
+button {
+  @apply bg-primary text-white font-medium px-5 py-2 rounded-lg shadow-soft hover:brightness-110 transition;
+}
+
+.container {
+  @apply mx-auto px-4 sm:px-6 lg:px-8;
+}

@@ -1,0 +1,21 @@
+{
+  "name": "Carla Lamerain - Portfolio",
+  "short_name": "CarlaPhoto",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#f1f0ed",
+  "theme_color": "#a26740",
+  "description": "Portfolio officiel de Carla Lamerain, photographe professionnelle dans le Sud-Ouest. Découvrez ses shootings, formules et projets créatifs.",
+  "icons": [
+    {
+      "src": "/logo192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/logo512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

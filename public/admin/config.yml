@@ -1,0 +1,31 @@
+backend:
+  name: git-gateway
+  branch: main
+
+media_library:
+  name: cloudinary
+  config:
+    cloud_name: ton_cloud_name
+    api_key: ta_api_key
+
+collections:
+  - name: "pages"
+    label: "Pages du site"
+    files:
+      - label: "Accueil"
+        name: "home"
+        file: "src/content/home.json"
+        fields:
+          - { label: "Titre", name: "title", widget: "string" }
+          - { label: "Sous-titre", name: "subtitle", widget: "string" }
+          - { label: "Objectif", name: "objectif", widget: "text" }
+
+  - name: "portfolio"
+    label: "Galerie"
+    folder: "src/assets/portfolio"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: "Titre", name: "title", widget: "string" }
+      - { label: "Image", name: "image", widget: "image" }
+      - { label: "Description", name: "desc", widget: "text" }
