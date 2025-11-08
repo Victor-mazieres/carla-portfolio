@@ -1,43 +1,64 @@
 backend:
   name: git-gateway
   branch: main
-  repo: tonPseudoGithub/carla-portfolio
+  repo: Victor-mazieres/carla-portfolio
 
-media_folder: "public/uploads"
-public_folder: "/uploads"
+media_folder: "public/uploads"    # 📂 Où sont stockées les images dans le repo
+public_folder: "/uploads"         # 🌐 Chemin public pour y accéder sur le site
+
+site_url: "https://carla-photographie.netlify.app"
+logo_url: "https://carla-photographie.netlify.app/Icons/Montagne+photo.png"
+
+locale: "fr"
 
 collections:
+  # =========================================================
+  # 📸 GALERIES (Portfolio)
+  # =========================================================
   - name: "portfolio"
     label: "Galeries"
     folder: "src/content/portfolio"
     create: true
     slug: "{{slug}}"
+    summary: "{{title}}"
     fields:
-      - { label: "Titre", name: "title", widget: "string" }
+      - { label: "Titre de la galerie", name: "title", widget: "string" }
       - { label: "Description", name: "description", widget: "text" }
-      - {
-          label: "Photos",
-          name: "photos",
-          widget: "list",
-          field: { label: "Image", name: "image", widget: "image" },
-        }
+      - label: "Photos"
+        name: "photos"
+        widget: "list"
+        field:
+          { label: "Image", name: "image", widget: "image", allow_multiple: false }
 
+  # =========================================================
+  # 👩‍💼 PAGE À PROPOS
+  # =========================================================
   - name: "about"
     label: "Page À propos"
-    files:               # ✅ <<-- ici : files (et pas file)
+    files:
       - file: "src/content/about.md"
         label: "Page À propos"
         name: "about"
         fields:
           - { label: "Titre", name: "title", widget: "string" }
-          - { label: "Texte", name: "body", widget: "markdown" }
+          - { label: "Texte principal", name: "body", widget: "markdown" }
 
+  # =========================================================
+  # 💰 TARIFS (Prestations)
+  # =========================================================
   - name: "tarifs"
-    label: "Tarifs"
+    label: "Tarifs & Prestations"
     folder: "src/content/tarifs"
     create: true
     slug: "{{slug}}"
+    summary: "{{title}} — {{price}}"
     fields:
       - { label: "Nom du forfait", name: "title", widget: "string" }
       - { label: "Prix", name: "price", widget: "string" }
-      - { label: "Description", name: "description", widget: "text" }
+      - { label: "Description courte", name: "description", widget: "string" }
+      - label: "Détails de la prestation"
+        name: "desc"
+        widget: "list"
+        field: { label: "Élément", name: "item", widget: "string" }
+      - { label: "Image principale (PNG)", name: "img", widget: "image" }
+      - { label: "Image WebP", name: "webp", widget: "image" }
