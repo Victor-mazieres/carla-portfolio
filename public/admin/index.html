@@ -4,14 +4,28 @@
     <meta charset="utf-8" />
     <title>Administration – Carla Lamerain</title>
 
-    <!-- ✅ Corrige le bug d'affichage DecapCMS 3.9.0 -->
+    <!-- ✅ Correction du bug d’affichage (barre Quick Add au milieu) -->
     <style>
-      /* Masquer la bannière d'erreur React/DecapCMS */
       .cms-error-boundary {
         display: none !important;
       }
 
-      /* Petit style visuel pour la page de chargement */
+      /* Correction barre flottante */
+      .css-1t2x7u5,
+      .DecapCMS-AppHeader,
+      [data-testid="app-header"] {
+        position: static !important;
+        transform: none !important;
+        top: auto !important;
+        z-index: 10 !important;
+      }
+
+      .cms-app .DecapCMS-Editor,
+      .cms-app .css-1t2x7u5 {
+        transform: none !important;
+        position: relative !important;
+      }
+
       body {
         font-family: "Quicksand", sans-serif;
         background: #f1f0ed;
@@ -22,7 +36,6 @@
     </style>
 
     <script>
-      // Charger DecapCMS dynamiquement pour s'assurer qu'il est prêt avant initCMS()
       const script = document.createElement("script");
       script.src = "https://unpkg.com/decap-cms@3.9.0/dist/decap-cms.js";
       script.onload = () => {
