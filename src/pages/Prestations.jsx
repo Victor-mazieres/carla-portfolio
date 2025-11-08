@@ -3,50 +3,22 @@ import { motion } from "framer-motion";
 import { Check } from "lucide-react";
 
 /* =========================================================
-   🔸 Données statiques — déclarées hors du composant
+   🔸 Chargement dynamique des fichiers Markdown (Vite)
    ========================================================= */
-const prestations = [
-  {
-    title: "Flash",
-    description: "CAPTURER L’ESSENTIEL DE VOTRE IMAGE",
-    img: "/Icons/Photo/Tarifs/Tatouage.png",
-    webp: "/Icons/Photo/Tarifs/Tatouage.webp",
-    desc: [
-      "Idéal pour portrait",
-      "5 photos numériques",
-      "Séance 35 minutes",
-      "Galerie envoyée sous 3 jours",
-    ],
-    price: "90€",
-  },
-  {
-    title: "Lumière",
-    description: "IMAGER VOTRE ACTIVITÉ ET VOTRE UNIVERS",
-    img: "/Icons/Photo/Tarifs/Chambre.png",
-    webp: "/Icons/Photo/Tarifs/Chambre.webp",
-    desc: [
-      "L’entre deux parfait",
-      "10 photos numériques",
-      "Séance 1 heure",
-      "Galerie envoyée sous 7 jours",
-    ],
-    price: "170€",
-  },
-  {
-    title: "Horizon",
-    description:
-      "RACONTER VOTRE HISTOIRE ET ENRICHIR VOS SUPPORTS VISUELS",
-    img: "/Icons/Photo/Tarifs/Lac.png",
-    webp: "/Icons/Photo/Tarifs/Lac.webp",
-    desc: [
-      "Reportage complet",
-      "20 photos numériques",
-      "Séance 1h à 1h30",
-      "Galerie envoyée sous 15 jours",
-    ],
-    price: "250€",
-  },
-];
+// On importe tous les fichiers .md depuis /src/content/tarifs
+const markdownFiles = import.meta.glob("/src/content/tarifs/*.md", {
+  eager: true,
+});
+
+// Conversion des fichiers Markdown en objets utilisables
+const prestations = Object.values(markdownFiles)
+  .map((file) => {
+    // Chaque fichier Markdown exporte ses métadonnées (frontmatter)
+    const { attributes } = file;
+    return attributes;
+  })
+  // Tri optionnel : par ordre alphabétique des titres
+  .sort((a, b) => a.title.localeCompare(b.title));
 
 /* =========================================================
    🔹 Composant : PrestationCard
@@ -57,6 +29,7 @@ const PrestationCard = React.memo(({ p }) => (
     transition={{ duration: 0.3 }}
     className="flex flex-col bg-lightBeige rounded-xl shadow-subtle overflow-hidden border border-neutral/30"
   >
+    {/* === DESCRIPTION === */}
     <h2 className="text-center font-title font-bold text-xl mt-5 text-darkText mb-4">
       {p.description}
     </h2>
@@ -79,16 +52,18 @@ const PrestationCard = React.memo(({ p }) => (
         {p.title}
       </h2>
 
+      {/* === LISTE DES AVANTAGES === */}
       <ul className="space-y-2 text-sm sm:text-base font-text mb-6">
-        {p.desc.map((line, i) => (
-          <li
-            key={i}
-            className="flex items-center justify-center gap-2 text-darkText/90"
-          >
-            <Check size={16} className="text-primary" />
-            {line}
-          </li>
-        ))}
+        {p.desc &&
+          p.desc.map((line, i) => (
+            <li
+              key={i}
+              className="flex items-center justify-center gap-2 text-darkText/90"
+            >
+              <Check size={16} className="text-primary" />
+              {line}
+            </li>
+          ))}
       </ul>
 
       {/* === ÉTIQUETTE PRIX === */}

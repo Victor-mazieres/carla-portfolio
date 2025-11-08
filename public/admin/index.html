@@ -2,36 +2,41 @@
 <html lang="fr">
   <head>
     <meta charset="utf-8" />
-    <title>Administration – Carla Lamerain</title>
+    <title>Administration</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <!-- ✅ Correction du bug d’affichage (barre Quick Add au milieu) -->
     <style>
-      .cms-error-boundary {
-        display: none !important;
+      /* ✅ Neutraliser tous les styles du site principal */
+      html, body {
+        all: unset;
+        display: block;
+        background: #f7f7f5;
+        color: #222;
+        font-family: system-ui, sans-serif;
+        height: 100%;
+        width: 100%;
+        margin: 0;
+        padding: 0;
       }
 
-      /* Correction barre flottante */
-      .css-1t2x7u5,
-      .DecapCMS-AppHeader,
-      [data-testid="app-header"] {
-        position: static !important;
+      /* ✅ Forcer le header Decap à coller en haut */
+      .nc-appHeader {
+        position: fixed !important;
+        top: 0 !important;
+        left: 0;
+        right: 0;
+        z-index: 1000 !important;
+      }
+
+      /* ✅ Empêcher les collisions avec la preview */
+      .nc-appMain {
+        margin-top: 60px !important;
+      }
+
+      /* ✅ Enlever les animations ou transitions héritées */
+      * {
+        transition: none !important;
         transform: none !important;
-        top: auto !important;
-        z-index: 10 !important;
-      }
-
-      .cms-app .DecapCMS-Editor,
-      .cms-app .css-1t2x7u5 {
-        transform: none !important;
-        position: relative !important;
-      }
-
-      body {
-        font-family: "Quicksand", sans-serif;
-        background: #f1f0ed;
-        color: #3a2e27;
-        text-align: center;
-        margin-top: 4rem;
       }
     </style>
 
@@ -47,6 +52,8 @@
   </head>
 
   <body>
-    <h2>Chargement du panneau d’administration...</h2>
+    <h2 style="text-align:center;margin-top:2rem;">
+      Chargement du panneau d’administration...
+    </h2>
   </body>
 </html>
