@@ -2,8 +2,8 @@
 <html lang="fr">
   <head>
     <meta charset="utf-8" />
-    <title>Decap Admin</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Decap Admin</title>
 
     <style>
       html,
@@ -15,7 +15,7 @@
         font-family: system-ui, sans-serif;
       }
 
-      /* ✅ Fixe le header du CMS */
+      /* ✅ Fix du header du CMS */
       .nc-appHeader {
         position: fixed !important;
         top: 0 !important;
@@ -28,14 +28,25 @@
         margin-top: 60px !important;
       }
     </style>
-
-    <script src="https://unpkg.com/decap-cms@3.9.0/dist/decap-cms.js"></script>
-    <script>
-      window.CMS_MANUAL_INIT = true;
-      window.initCMS();
-    </script>
   </head>
+
   <body>
     <h2 style="text-align:center;margin-top:2rem;">Chargement du panneau d’administration...</h2>
+
+    <script>
+      // On crée dynamiquement le script Decap pour garantir qu'il est prêt avant init
+      const script = document.createElement("script");
+      script.src = "https://unpkg.com/decap-cms@3.9.0/dist/decap-cms.js";
+      script.onload = () => {
+        console.log("✅ DecapCMS chargé !");
+        window.CMS_MANUAL_INIT = true;
+        if (window.initCMS) {
+          window.initCMS();
+        } else {
+          console.error("❌ Erreur : initCMS non trouvé !");
+        }
+      };
+      document.body.appendChild(script);
+    </script>
   </body>
 </html>
