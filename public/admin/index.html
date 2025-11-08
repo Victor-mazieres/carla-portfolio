@@ -1,14 +1,20 @@
 <!doctype html>
-<html>
+<html lang="fr">
   <head>
     <meta charset="utf-8" />
     <title>Administration</title>
-    <script src="https://unpkg.com/decap-cms@3.9.0/dist/decap-cms.js"></script>
+    <script>
+      // Charger DecapCMS dynamiquement pour être sûr qu'il est prêt avant initCMS()
+      const script = document.createElement("script");
+      script.src = "https://unpkg.com/decap-cms@3.9.0/dist/decap-cms.js";
+      script.onload = () => {
+        window.CMS_MANUAL_INIT = true;
+        window.initCMS();
+      };
+      document.head.appendChild(script);
+    </script>
   </head>
   <body>
-    <script>
-      window.CMS_MANUAL_INIT = true;
-      window.initCMS();
-    </script>
+    <h2 style="text-align:center;margin-top:2rem;">Chargement du panneau d’administration...</h2>
   </body>
 </html>
