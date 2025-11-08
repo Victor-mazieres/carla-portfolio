@@ -287,15 +287,24 @@ export default function Portfolio() {
 /* === SECTION GALERIE === */
 function GallerySection({ index, title, photos, onImageClick }) {
   const isSecondary = index % 2 === 0;
+  const hasPrimaryBackground = isSecondary; // tes sections "pattern" sont en bg-secondary
   const bgColor = isSecondary
     ? "bg-secondary text-white"
     : "bg-background text-darkText";
 
   return (
     <section
-      className={`relative w-full py-20 overflow-hidden ${bgColor}`}
-      aria-labelledby={`gallery-${index}`}
-    >
+  className={`relative w-full py-20 overflow-hidden transition-all duration-500 ${bgColor}
+    ${
+      !hasPrimaryBackground
+        ? "before:absolute before:inset-0 before:z-[5] before:shadow-[inset_0_50px_100px_rgba(0,0,0,0.10),inset_0_-50px_100px_rgba(0,0,0,0.10)] before:pointer-events-none"
+        : ""
+    }
+  `}
+  aria-labelledby={`gallery-${index}`}
+>
+
+      {/* === PATTERN === */}
       {isSecondary && (
         <>
           {index === 0 && <Pattern1 />}
@@ -308,6 +317,7 @@ function GallerySection({ index, title, photos, onImageClick }) {
         </>
       )}
 
+      {/* === CONTENU === */}
       <div className="relative z-10 w-[90%] sm:w-[80%] md:w-[70%] mx-auto">
         <FocusCarousel
           title={title}
@@ -321,11 +331,13 @@ function GallerySection({ index, title, photos, onImageClick }) {
   );
 }
 
+
 /* === CARROUSEL === */
 function FocusCarousel({ title, photos, onImageClick, isSecondary, id }) {
   const [index, setIndex] = useState(0);
   const [ratios, setRatios] = useState({});
 
+  /* === Préchargement pour connaître le ratio === */
   useEffect(() => {
     photos.forEach((src) => {
       const img = new Image();
@@ -342,25 +354,52 @@ function FocusCarousel({ title, photos, onImageClick, isSecondary, id }) {
     });
   }, [photos]);
 
+  /* === Navigation === */
   const next = () => setIndex((i) => (i + 1) % photos.length);
   const prev = () => setIndex((i) => (i - 1 + photos.length) % photos.length);
 
+  /* === Swipe mobile === */
+  const [touchStart, setTouchStart] = useState(0);
+  const [touchEnd, setTouchEnd] = useState(0);
+  const handleTouchStart = (e) => setTouchStart(e.targetTouches[0].clientX);
+  const handleTouchMove = (e) => setTouchEnd(e.targetTouches[0].clientX);
+  const handleTouchEnd = () => {
+    if (!touchStart || !touchEnd) return;
+    const distance = touchStart - touchEnd;
+    if (distance > 50) next();
+    if (distance < -50) prev();
+    setTouchStart(0);
+    setTouchEnd(0);
+  };
+
+  /* === Positionnement dynamique avec effet 3D === */
   const getPosition = (i) => {
     const total = photos.length;
     let diff = (i - index + total) % total;
     if (diff > total / 2) diff -= total;
+
+    let xBase = 140;
+    if (window.innerWidth >= 768 && window.innerWidth < 1024) xBase = 220;
+    if (window.innerWidth >= 1024) xBase = 280;
+
     const positions = {
-      "-2": { x: -400, scale: 0.7, opacity: 1, z: 5 },
-      "-1": { x: -200, scale: 0.85, opacity: 1, z: 10 },
-      "0": { x: 0, scale: 1.1, opacity: 1, z: 20 },
-      "1": { x: 200, scale: 0.85, opacity: 1, z: 10 },
-      "2": { x: 400, scale: 0.7, opacity: 1, z: 5 },
+      "-2": { x: -xBase * 2, scale: 0.7, opacity: 0.7, z: 5 },
+      "-1": { x: -xBase, scale: 0.85, opacity: 0.9, z: 10 },
+      "0": { x: 0, scale: 1.05, opacity: 1, z: 20 },
+      "1": { x: xBase, scale: 0.85, opacity: 0.9, z: 10 },
+      "2": { x: xBase * 2, scale: 0.7, opacity: 0.7, z: 5 },
     };
-    return positions[diff] || { x: diff * 400, scale: 0.5, opacity: 0 };
+    return positions[diff] || { x: diff * xBase * 2, scale: 0.5, opacity: 0 };
   };
 
   return (
-    <section className="flex flex-col items-center overflow-hidden">
+    <section
+      className="flex flex-col items-center"
+      onTouchStart={handleTouchStart}
+      onTouchMove={handleTouchMove}
+      onTouchEnd={handleTouchEnd}
+    >
+      {/* === Titre === */}
       <h2
         id={id}
         className={`font-title font-semibold mb-8 w-full 
@@ -371,35 +410,24 @@ function FocusCarousel({ title, photos, onImageClick, isSecondary, id }) {
         {title}
       </h2>
 
-      <div className="relative w-full flex items-center justify-center">
-        <button
-          onClick={prev}
-          aria-label="Photo précédente"
-          className={`absolute left-0 z-50 rounded-full p-2 transition-transform hover:scale-110 ${
-            isSecondary
-              ? "bg-primary/90 hover:bg-primary/70 text-white"
-              : "bg-secondary/80 hover:bg-secondary text-white"
-          }`}
-        >
-          <ChevronLeft size={28} />
-        </button>
-
-        <div className="relative w-full h-[400px] flex items-center justify-center">
+      {/* === Carrousel === */}
+      <div className="relative w-full flex flex-col items-center justify-center overflow-visible perspective-1000">
+        {/* Images avec effet 3D visible sur mobile */}
+        <div className="relative w-full min-h-[280px] sm:min-h-[380px] md:min-h-[460px] flex items-center justify-center overflow-visible">
           {photos.map((src, i) => {
             const { x, scale, opacity, z } = getPosition(i);
             const ratio = ratios[src] || "1:1";
             const isWide = ratio === "16:9";
 
             return (
-              <div
+              <motion.div
                 key={i}
                 style={{
                   transform: `translateX(${x}px) scale(${scale})`,
                   opacity,
                   zIndex: z,
-                  transition: "none",
                 }}
-                className="absolute flex-shrink-0 cursor-pointer rounded-2xl overflow-hidden shadow-xl hover:brightness-110 duration-0"
+                className="absolute flex-shrink-0 cursor-pointer rounded-3xl overflow-hidden shadow-2xl hover:brightness-110 transition-all duration-300 ease-out"
                 onClick={() => onImageClick(i)}
               >
                 <img
@@ -407,28 +435,57 @@ function FocusCarousel({ title, photos, onImageClick, isSecondary, id }) {
                   alt={`${title} — photo ${i + 1}`}
                   loading="lazy"
                   decoding="async"
-                  className={`object-cover rounded-2xl ${
+                  className={`object-cover rounded-3xl ${
                     isWide
-                      ? "w-112 h-56 sm:w-128 sm:h-64 md:w-160 md:h-80"
-                      : "w-64 h-64 sm:w-64 sm:h-64 md:w-80 md:h-80"
+                      ? "w-[80vw] max-w-[380px] sm:max-w-[500px] md:max-w-[680px] h-auto"
+                      : "w-[65vw] max-w-[300px] sm:max-w-[380px] md:max-w-[480px] h-auto"
                   }`}
                 />
-              </div>
+              </motion.div>
             );
           })}
         </div>
 
-        <button
-          onClick={next}
-          aria-label="Photo suivante"
-          className={`absolute right-0 z-50 rounded-full p-2 transition-transform hover:scale-110 ${
-            isSecondary
-              ? "bg-primary/90 hover:bg-primary/70 text-white"
-              : "bg-secondary/80 hover:bg-secondary text-white"
+        {/* === Boutons sous les images (tablette & desktop uniquement) === */}
+        <div className="hidden md:flex items-center justify-center gap-6 mt-6">
+          <button
+            onClick={prev}
+            aria-label="Photo précédente"
+            className={`rounded-full p-3 transition-all duration-200 hover:scale-110 shadow-md ${
+              isSecondary
+                ? "bg-primary/90 hover:bg-primary/70 text-white"
+                : "bg-secondary/80 hover:bg-secondary text-white"
+            }`}
+          >
+            <ChevronLeft size={28} />
+          </button>
+
+          <button
+            onClick={next}
+            aria-label="Photo suivante"
+            className={`rounded-full p-3 transition-all duration-200 hover:scale-110 shadow-md ${
+              isSecondary
+                ? "bg-primary/90 hover:bg-primary/70 text-white"
+                : "bg-secondary/80 hover:bg-secondary text-white"
+            }`}
+          >
+            <ChevronRight size={28} />
+          </button>
+        </div>
+      </div>
+
+      {/* === Indicateurs === */}
+      <div className="flex flex-col items-center mt-6 space-y-2">
+        <p
+          className={`text-xs sm:text-sm ${
+            isSecondary ? "text-darkText/70" : "text-darkText/70"
           }`}
         >
-          <ChevronRight size={28} />
-        </button>
+          {index + 1} / {photos.length}
+        </p>
+        <p className="md:hidden text-xs text-darkText/60 italic">
+          Swipe pour faire défiler →
+        </p>
       </div>
     </section>
   );
