@@ -287,23 +287,22 @@ export default function Portfolio() {
 /* === SECTION GALERIE === */
 function GallerySection({ index, title, photos, onImageClick }) {
   const isSecondary = index % 2 === 0;
-  const hasPrimaryBackground = isSecondary; // tes sections "pattern" sont en bg-secondary
+  const hasPrimaryBackground = isSecondary;
   const bgColor = isSecondary
     ? "bg-secondary text-white"
     : "bg-background text-darkText";
 
   return (
     <section
-  className={`relative w-full py-20 overflow-hidden transition-all duration-500 ${bgColor}
-    ${
-      !hasPrimaryBackground
-        ? "before:absolute before:inset-0 before:z-[5] before:shadow-[inset_0_50px_100px_rgba(0,0,0,0.10),inset_0_-50px_100px_rgba(0,0,0,0.10)] before:pointer-events-none"
-        : ""
-    }
-  `}
-  aria-labelledby={`gallery-${index}`}
->
-
+      className={`relative w-full py-20 overflow-hidden transition-all duration-500 ${bgColor}
+        ${
+          !hasPrimaryBackground
+            ? "before:absolute before:inset-0 before:z-[5] before:shadow-[inset_0_40px_80px_rgba(0,0,0,0.08),inset_0_-40px_80px_rgba(0,0,0,0.08)] before:pointer-events-none"
+            : ""
+        }
+      `}
+      aria-labelledby={`gallery-${index}`}
+    >
       {/* === PATTERN === */}
       {isSecondary && (
         <>
@@ -330,8 +329,6 @@ function GallerySection({ index, title, photos, onImageClick }) {
     </section>
   );
 }
-
-
 /* === CARROUSEL === */
 function FocusCarousel({ title, photos, onImageClick, isSecondary, id }) {
   const [index, setIndex] = useState(0);
@@ -410,9 +407,9 @@ function FocusCarousel({ title, photos, onImageClick, isSecondary, id }) {
         {title}
       </h2>
 
-      {/* === Carrousel === */}
+      {/* === Carrousel principal === */}
       <div className="relative w-full flex flex-col items-center justify-center overflow-visible perspective-1000">
-        {/* Images avec effet 3D visible sur mobile */}
+        {/* Images avec effet 3D */}
         <div className="relative w-full min-h-[280px] sm:min-h-[380px] md:min-h-[460px] flex items-center justify-center overflow-visible">
           {photos.map((src, i) => {
             const { x, scale, opacity, z } = getPosition(i);
@@ -431,23 +428,25 @@ function FocusCarousel({ title, photos, onImageClick, isSecondary, id }) {
                 onClick={() => onImageClick(i)}
               >
                 <img
-                  src={src}
-                  alt={`${title} — photo ${i + 1}`}
-                  loading="lazy"
-                  decoding="async"
-                  className={`object-cover rounded-3xl ${
-                    isWide
-                      ? "w-[80vw] max-w-[380px] sm:max-w-[500px] md:max-w-[680px] h-auto"
-                      : "w-[65vw] max-w-[300px] sm:max-w-[380px] md:max-w-[480px] h-auto"
-                  }`}
-                />
+  src={src}
+  alt={`${title} — photo ${i + 1}`}
+  loading="lazy"
+  decoding="async"
+  className={`object-cover object-center rounded-3xl ${
+    isWide
+      ? "w-[80vw] max-w-[380px] sm:max-w-[520px] md:max-w-[700px] h-[400px] sm:h-[420px] md:h-[460px]"
+      : "w-[65vw] max-w-[300px] sm:max-w-[400px] md:max-w-[500px] h-[400px] sm:h-[420px] md:h-[460px]"
+  }`}
+  style={{ aspectRatio: isWide ? "16/9" : "3/4" }}
+/>
+
               </motion.div>
             );
           })}
         </div>
 
         {/* === Boutons sous les images (tablette & desktop uniquement) === */}
-        <div className="hidden md:flex items-center justify-center gap-6 mt-6">
+        <div className="hidden md:flex items-center justify-center gap-8 mt-10">
           <button
             onClick={prev}
             aria-label="Photo précédente"
@@ -457,7 +456,7 @@ function FocusCarousel({ title, photos, onImageClick, isSecondary, id }) {
                 : "bg-secondary/80 hover:bg-secondary text-white"
             }`}
           >
-            <ChevronLeft size={28} />
+            <ChevronLeft size={32} />
           </button>
 
           <button
@@ -469,7 +468,7 @@ function FocusCarousel({ title, photos, onImageClick, isSecondary, id }) {
                 : "bg-secondary/80 hover:bg-secondary text-white"
             }`}
           >
-            <ChevronRight size={28} />
+            <ChevronRight size={32} />
           </button>
         </div>
       </div>
@@ -478,7 +477,7 @@ function FocusCarousel({ title, photos, onImageClick, isSecondary, id }) {
       <div className="flex flex-col items-center mt-6 space-y-2">
         <p
           className={`text-xs sm:text-sm ${
-            isSecondary ? "text-darkText/70" : "text-darkText/70"
+            isSecondary ? "text-white/70" : "text-darkText/70"
           }`}
         >
           {index + 1} / {photos.length}
