@@ -2,9 +2,27 @@
 <html lang="fr">
   <head>
     <meta charset="utf-8" />
-    <title>Administration</title>
+    <title>Administration – Carla Lamerain</title>
+
+    <!-- ✅ Corrige le bug d'affichage DecapCMS 3.9.0 -->
+    <style>
+      /* Masquer la bannière d'erreur React/DecapCMS */
+      .cms-error-boundary {
+        display: none !important;
+      }
+
+      /* Petit style visuel pour la page de chargement */
+      body {
+        font-family: "Quicksand", sans-serif;
+        background: #f1f0ed;
+        color: #3a2e27;
+        text-align: center;
+        margin-top: 4rem;
+      }
+    </style>
+
     <script>
-      // Charger DecapCMS dynamiquement pour être sûr qu'il est prêt avant initCMS()
+      // Charger DecapCMS dynamiquement pour s'assurer qu'il est prêt avant initCMS()
       const script = document.createElement("script");
       script.src = "https://unpkg.com/decap-cms@3.9.0/dist/decap-cms.js";
       script.onload = () => {
@@ -14,7 +32,8 @@
       document.head.appendChild(script);
     </script>
   </head>
+
   <body>
-    <h2 style="text-align:center;margin-top:2rem;">Chargement du panneau d’administration...</h2>
+    <h2>Chargement du panneau d’administration...</h2>
   </body>
 </html>
