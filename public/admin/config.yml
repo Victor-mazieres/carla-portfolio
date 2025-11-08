@@ -62,3 +62,7 @@ collections:
         field: { label: "Élément", name: "item", widget: "string" }
       - { label: "Image principale (PNG)", name: "img", widget: "image" }
       - { label: "Image WebP", name: "webp", widget: "image" }
+
+# === Style personnalisé ===
+custom_css:
+  - /src/admin/custom.css

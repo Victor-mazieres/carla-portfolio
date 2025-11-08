@@ -1,0 +1,19 @@
+/* ======== FIX HEADER DECAP ======== */
+.nc-appHeader {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  z-index: 9999 !important;
+  background: #fff !important;
+  border-bottom: 1px solid #ddd !important;
+}
+
+.nc-appMain {
+  margin-top: 70px !important;
+}
+
+#nc-root {
+  transform: none !important;
+  position: relative !important;
+}

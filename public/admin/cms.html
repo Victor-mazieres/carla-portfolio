@@ -3,29 +3,44 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Decap Admin</title>
+    <title>Panneau d’administration</title>
 
     <style>
-      html,
-      body {
+      /* 🔹 Réinitialisation complète de base */
+      html, body {
         margin: 0;
         padding: 0;
         height: 100%;
+        overflow: hidden;
         background: #f7f7f5;
         font-family: system-ui, sans-serif;
       }
 
-      /* ✅ Fix du header du CMS */
+      /* 🔹 Conteneur principal DecapCMS */
+      #nc-root {
+        all: unset; /* efface tout héritage */
+        display: block !important;
+        position: relative !important;
+        width: 100%;
+        height: 100vh;
+        overflow: auto;
+        transform: none !important; /* empêche tout décalage du header */
+      }
+
+      /* 🔹 Fix du header */
       .nc-appHeader {
         position: fixed !important;
         top: 0 !important;
         left: 0 !important;
         right: 0 !important;
         z-index: 9999 !important;
+        background: #ffffff !important;
+        border-bottom: 1px solid #ddd !important;
       }
 
+      /* 🔹 Décalage du contenu pour ne pas passer sous le header */
       .nc-appMain {
-        margin-top: 60px !important;
+        margin-top: 70px !important;
       }
     </style>
   </head>
@@ -34,7 +49,7 @@
     <h2 style="text-align:center;margin-top:2rem;">Chargement du panneau d’administration...</h2>
 
     <script>
-      // On crée dynamiquement le script Decap pour garantir qu'il est prêt avant init
+      // ✅ Charger DecapCMS proprement et attendre son initialisation
       const script = document.createElement("script");
       script.src = "https://unpkg.com/decap-cms@3.9.0/dist/decap-cms.js";
       script.onload = () => {
